@@ -9,8 +9,12 @@ namespace CHC.Entities.Services.OilDelivery.Map
 		{
 			builder.HasKey( obj => obj.ID );
 			builder.Property( obj => obj.ID ).HasColumnName( "OilDeliveryPricingTierID" );
-			builder.HasMany( obj => obj.ServiceAreas );
-			builder.HasMany( obj => obj.PriceLevels );
+			builder.HasMany( obj => obj.ServiceAreas )
+				.WithOne( obj => obj.PricingTier )
+				.HasForeignKey( obj => obj.OilDeliveryPricingTierID );
+			builder.HasMany( obj => obj.PriceLevels )
+				.WithOne( obj => obj.PricingTier )
+				.HasForeignKey( obj => obj.OilDeliveryPricingTierID );
 			builder.ToTable( "tblOilDeliveryPricingTier" );
 		}
 	}

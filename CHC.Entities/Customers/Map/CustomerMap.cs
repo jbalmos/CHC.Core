@@ -9,7 +9,9 @@ namespace CHC.Entities.Customers.Map
 		{
 			builder.HasKey( obj => obj.ID );
 			builder.Property( obj => obj.ID ).HasColumnName( "CustomerID" );
-			builder.HasMany( obj => obj.Addresses );
+			builder.HasMany( obj => obj.Addresses )
+				.WithOne( obj => obj.Customer )
+				.HasForeignKey( obj => obj.CustomerID );
 			builder.HasOne( obj => obj.Account )
 				.WithOne()
 				.HasForeignKey<Customer>( c => c.ID );

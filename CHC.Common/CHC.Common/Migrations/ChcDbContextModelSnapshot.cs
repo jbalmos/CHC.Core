@@ -184,8 +184,6 @@ namespace CHC.Common.Migrations
                     b.Property<int>("DeliveryRequestID")
                         .HasColumnName("OilDeliveryRequestID");
 
-                    b.Property<int?>("DeliveryRequestID1");
-
                     b.Property<string>("Description");
 
                     b.Property<decimal>("Fee");
@@ -193,8 +191,6 @@ namespace CHC.Common.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("DeliveryRequestID");
-
-                    b.HasIndex("DeliveryRequestID1");
 
                     b.ToTable("tblOilDeliveryRequestFee");
                 });
@@ -209,17 +205,13 @@ namespace CHC.Common.Migrations
 
                     b.Property<int>("GallonRangeStart");
 
-                    b.Property<int>("OilDeliveryPricingTierID");
+                    b.Property<int?>("OilDeliveryPricingTierID");
 
                     b.Property<decimal>("PricePerGallon");
-
-                    b.Property<int?>("PricingTierID1");
 
                     b.HasKey("ID");
 
                     b.HasIndex("OilDeliveryPricingTierID");
-
-                    b.HasIndex("PricingTierID1");
 
                     b.ToTable("tblOilDeliveryPriceLevel");
                 });
@@ -236,13 +228,9 @@ namespace CHC.Common.Migrations
 
                     b.Property<int>("OilDeliveryPriceLevelID");
 
-                    b.Property<int?>("PriceLevelID1");
-
                     b.HasKey("ID");
 
                     b.HasIndex("OilDeliveryPriceLevelID");
-
-                    b.HasIndex("PriceLevelID1");
 
                     b.ToTable("tblOilDeliveryPriceLevelFee");
                 });
@@ -270,15 +258,7 @@ namespace CHC.Common.Migrations
 
                     b.Property<string>("Zip");
 
-                    b.Property<int?>("PricingTierID");
-
-                    b.Property<string>("ServiceAreaTownZip");
-
                     b.HasKey("OilDeliveryPricingTierID", "Zip");
-
-                    b.HasIndex("PricingTierID");
-
-                    b.HasIndex("ServiceAreaTownZip");
 
                     b.HasIndex("Zip");
 
@@ -339,51 +319,35 @@ namespace CHC.Common.Migrations
             modelBuilder.Entity("CHC.Entities.Services.OilDelivery.DeliveryRequestFee", b =>
                 {
                     b.HasOne("CHC.Entities.Services.OilDelivery.DeliveryRequest", "DeliveryRequest")
-                        .WithMany()
+                        .WithMany("DeliveryRequestFees")
                         .HasForeignKey("DeliveryRequestID")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CHC.Entities.Services.OilDelivery.DeliveryRequest")
-                        .WithMany("DeliveryRequestFees")
-                        .HasForeignKey("DeliveryRequestID1");
                 });
 
             modelBuilder.Entity("CHC.Entities.Services.OilDelivery.PriceLevel", b =>
                 {
                     b.HasOne("CHC.Entities.Services.OilDelivery.PricingTier", "PricingTier")
-                        .WithMany()
-                        .HasForeignKey("OilDeliveryPricingTierID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CHC.Entities.Services.OilDelivery.PricingTier")
                         .WithMany("PriceLevels")
-                        .HasForeignKey("PricingTierID1");
+                        .HasForeignKey("OilDeliveryPricingTierID");
                 });
 
             modelBuilder.Entity("CHC.Entities.Services.OilDelivery.PriceLevelFee", b =>
                 {
                     b.HasOne("CHC.Entities.Services.OilDelivery.PriceLevel", "PriceLevel")
-                        .WithMany()
+                        .WithMany("Fees")
                         .HasForeignKey("OilDeliveryPriceLevelID")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CHC.Entities.Services.OilDelivery.PriceLevel")
-                        .WithMany("Fees")
-                        .HasForeignKey("PriceLevelID1");
                 });
 
             modelBuilder.Entity("CHC.Entities.Services.OilDelivery.ServiceArea", b =>
                 {
-                    b.HasOne("CHC.Entities.Services.OilDelivery.PricingTier")
+                    b.HasOne("CHC.Entities.Services.OilDelivery.PricingTier", "PricingTier")
                         .WithMany("ServiceAreas")
-                        .HasForeignKey("PricingTierID");
-
-                    b.HasOne("CHC.Entities.Services.OilDelivery.ServiceAreaTown")
-                        .WithMany("ServiceAreas")
-                        .HasForeignKey("ServiceAreaTownZip");
+                        .HasForeignKey("OilDeliveryPricingTierID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CHC.Entities.Services.OilDelivery.ServiceAreaTown", "Town")
-                        .WithMany()
+                        .WithMany("ServiceAreas")
                         .HasForeignKey("Zip")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

@@ -8,11 +8,9 @@ namespace CHC.Entities.Services.OilDelivery.Map
 		public void Configure( EntityTypeBuilder<ServiceArea> builder )
 		{
 			builder.HasKey( obj => new { obj.OilDeliveryPricingTierID, obj.Zip } );
-			//builder.HasRequired(l => l.PricingTier).WithMany(p => p.ServiceAreas).HasForeignKey(a => a.OilDeliveryPricingTierID);
-
-			builder.HasOne( obj => obj.Town )
+			builder.HasOne( obj => obj.PricingTier )
 				.WithMany()
-				.HasForeignKey( f => f.Zip );// TODO May need IsRequired here
+				.HasForeignKey( obj => obj.OilDeliveryPricingTierID );
 			builder.ToTable( "tblOilDeliveryServiceArea" );
 		}
 	}

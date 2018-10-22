@@ -9,6 +9,9 @@ namespace CHC.Entities.Services.OilDelivery.Map
 		{
 			builder.HasKey( obj => obj.ID );
 			builder.Property( obj => obj.ID ).HasColumnName( "OilDeliveryRequestID" );
+			builder.HasMany( obj => obj.DeliveryRequestFees )
+				.WithOne( obj => obj.DeliveryRequest )
+				.HasForeignKey( f => f.DeliveryRequestID );// TODO May need IsRequired here
 			builder.ToTable( "tblOilDeliveryRequest" );
 		}
 	}

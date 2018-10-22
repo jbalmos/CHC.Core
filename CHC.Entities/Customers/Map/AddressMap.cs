@@ -9,8 +9,12 @@ namespace CHC.Entities.Customers.Map
 		{
 			builder.HasKey( obj => obj.ID );
 			builder.Property( obj => obj.ID ).HasColumnName( "CustomerAddressID" );
-			builder.HasMany( obj => obj.OilTanks );
-			builder.HasMany( obj => obj.DeliveryRequests );
+			builder.HasMany( obj => obj.OilTanks )
+				.WithOne( obj => obj.Address )
+				.HasForeignKey( obj => obj.AddressID );
+			builder.HasMany( obj => obj.DeliveryRequests )
+				.WithOne( obj => obj.CustomerAddress )
+				.HasForeignKey( obj => obj.CustomerAddressID );
 			builder.ToTable( "tblCustomerAddress" );
 		}
 	}

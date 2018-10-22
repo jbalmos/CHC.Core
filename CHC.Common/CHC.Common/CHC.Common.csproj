@@ -6,6 +6,18 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20181021023445_chc.cs" />
+    <Compile Remove="Migrations\20181021024829_chc.cs" />
+    <Compile Remove="Migrations\20181022013141_chc.2.cs" />
+    <Compile Remove="Migrations\20181022015357_chc.1.cs" />
+    <Compile Remove="Migrations\20181022020129_chc.1.cs" />
+    <Compile Remove="Migrations\20181022022922_chc.1.cs" />
+    <Compile Remove="Migrations\20181022023243_chc.1.cs" />
+    <Compile Remove="Migrations\20181022023359_chc.1.cs" />
+    <Compile Remove="Migrations\20181022124950_chc..cs" />
+    <Compile Remove="Migrations\20181022131700_chc.1.cs" />
+    <Compile Remove="Migrations\20181022193918_chc.1.cs" />
+    <Compile Remove="Migrations\20181022195417_chc.1.cs" />
+    <Compile Remove="Migrations\20181022195922_chc.1.cs" />
   </ItemGroup>
 
   <ItemGroup>

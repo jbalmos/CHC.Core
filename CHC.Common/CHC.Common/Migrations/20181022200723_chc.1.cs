@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CHC.Common.Migrations
 {
-    public partial class chc : Migration
+    public partial class chc1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -70,11 +70,10 @@ namespace CHC.Common.Migrations
                 {
                     OilDeliveryPriceLevelID = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    OilDeliveryPricingTierID = table.Column<int>(nullable: false),
                     GallonRangeStart = table.Column<int>(nullable: false),
                     GallonRangeEnd = table.Column<int>(nullable: false),
                     PricePerGallon = table.Column<decimal>(nullable: false),
-                    PricingTierID1 = table.Column<int>(nullable: true)
+                    OilDeliveryPricingTierID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -82,12 +81,6 @@ namespace CHC.Common.Migrations
                     table.ForeignKey(
                         name: "FK_tblOilDeliveryPriceLevel_tblOilDeliveryPricingTier_OilDelive~",
                         column: x => x.OilDeliveryPricingTierID,
-                        principalTable: "tblOilDeliveryPricingTier",
-                        principalColumn: "OilDeliveryPricingTierID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tblOilDeliveryPriceLevel_tblOilDeliveryPricingTier_PricingTi~",
-                        column: x => x.PricingTierID1,
                         principalTable: "tblOilDeliveryPricingTier",
                         principalColumn: "OilDeliveryPricingTierID",
                         onDelete: ReferentialAction.Restrict);
@@ -98,25 +91,17 @@ namespace CHC.Common.Migrations
                 columns: table => new
                 {
                     OilDeliveryPricingTierID = table.Column<int>(nullable: false),
-                    Zip = table.Column<string>(nullable: false),
-                    PricingTierID = table.Column<int>(nullable: true),
-                    ServiceAreaTownZip = table.Column<string>(nullable: true)
+                    Zip = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tblOilDeliveryServiceArea", x => new { x.OilDeliveryPricingTierID, x.Zip });
                     table.ForeignKey(
-                        name: "FK_tblOilDeliveryServiceArea_tblOilDeliveryPricingTier_PricingT~",
-                        column: x => x.PricingTierID,
+                        name: "FK_tblOilDeliveryServiceArea_tblOilDeliveryPricingTier_OilDeliv~",
+                        column: x => x.OilDeliveryPricingTierID,
                         principalTable: "tblOilDeliveryPricingTier",
                         principalColumn: "OilDeliveryPricingTierID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_tblOilDeliveryServiceArea_tblServiceAreaTown_ServiceAreaTown~",
-                        column: x => x.ServiceAreaTownZip,
-                        principalTable: "tblServiceAreaTown",
-                        principalColumn: "Zip",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tblOilDeliveryServiceArea_tblServiceAreaTown_Zip",
                         column: x => x.Zip,
@@ -133,8 +118,7 @@ namespace CHC.Common.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     OilDeliveryPriceLevelID = table.Column<int>(nullable: false),
                     Fee = table.Column<decimal>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    PriceLevelID1 = table.Column<int>(nullable: true)
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -145,12 +129,6 @@ namespace CHC.Common.Migrations
                         principalTable: "tblOilDeliveryPriceLevel",
                         principalColumn: "OilDeliveryPriceLevelID",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tblOilDeliveryPriceLevelFee_tblOilDeliveryPriceLevel_PriceLe~",
-                        column: x => x.PriceLevelID1,
-                        principalTable: "tblOilDeliveryPriceLevel",
-                        principalColumn: "OilDeliveryPriceLevelID",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -276,8 +254,7 @@ namespace CHC.Common.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     OilDeliveryRequestID = table.Column<int>(nullable: false),
                     Fee = table.Column<decimal>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    DeliveryRequestID1 = table.Column<int>(nullable: true)
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -288,12 +265,6 @@ namespace CHC.Common.Migrations
                         principalTable: "tblOilDeliveryRequest",
                         principalColumn: "OilDeliveryRequestID",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tblOilDeliveryRequestFee_tblOilDeliveryRequest_DeliveryReque~",
-                        column: x => x.DeliveryRequestID1,
-                        principalTable: "tblOilDeliveryRequest",
-                        principalColumn: "OilDeliveryRequestID",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -317,19 +288,9 @@ namespace CHC.Common.Migrations
                 column: "OilDeliveryPricingTierID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblOilDeliveryPriceLevel_PricingTierID1",
-                table: "tblOilDeliveryPriceLevel",
-                column: "PricingTierID1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_tblOilDeliveryPriceLevelFee_OilDeliveryPriceLevelID",
                 table: "tblOilDeliveryPriceLevelFee",
                 column: "OilDeliveryPriceLevelID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblOilDeliveryPriceLevelFee_PriceLevelID1",
-                table: "tblOilDeliveryPriceLevelFee",
-                column: "PriceLevelID1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblOilDeliveryRequest_CustomerAddressID",
@@ -340,21 +301,6 @@ namespace CHC.Common.Migrations
                 name: "IX_tblOilDeliveryRequestFee_OilDeliveryRequestID",
                 table: "tblOilDeliveryRequestFee",
                 column: "OilDeliveryRequestID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblOilDeliveryRequestFee_DeliveryRequestID1",
-                table: "tblOilDeliveryRequestFee",
-                column: "DeliveryRequestID1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblOilDeliveryServiceArea_PricingTierID",
-                table: "tblOilDeliveryServiceArea",
-                column: "PricingTierID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblOilDeliveryServiceArea_ServiceAreaTownZip",
-                table: "tblOilDeliveryServiceArea",
-                column: "ServiceAreaTownZip");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblOilDeliveryServiceArea_Zip",
